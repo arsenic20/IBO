@@ -119,5 +119,10 @@ dependencies {
     // Debug
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    //Glide
+    // Glide for Compose
+    implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
+
 }
 android.defaultConfig.ndk.debugSymbolLevel="FULL"
