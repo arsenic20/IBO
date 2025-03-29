@@ -1,5 +1,6 @@
 package com.android.ibotestapptemplate.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.ibotestapptemplate.model.MovieResponse
@@ -30,22 +31,22 @@ class MovieListViewModel @Inject constructor(private val repository: MyRepositor
         fetchItems()
     }
 
+
     private fun fetchItems() {
         viewModelScope.launch {
-          _isLoading.value = true
+            _isLoading.value = true
             _error.value = null
             try {
-                var response = emptyList<MovieResponse>()
-                withContext(Dispatchers.IO){
-                 response = repository.getMovieDetails()?.movies!!
+                val response = withContext(Dispatchers.IO) {
+                    repository.getMovieDetails() // Avoid force unwrapping
                 }
-                _itemList.value = response
-            }catch (e:Exception){
+                Log.d("carbon", response.toString())
+                _itemList.value = response ?: emptyList()
+            } catch (e: Exception) {
                 _error.value = e.message
             } finally {
                 _isLoading.value = false
             }
-
         }
     }
 }
